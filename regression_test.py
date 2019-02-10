@@ -1,3 +1,4 @@
+import regression_tree
 import dtree_build
 import sys
 import csv
@@ -25,16 +26,16 @@ def main(col_names=None):
             data.append(list)
 
     print("Total number of records = ",len(data))
-    tree = dtree_build.buildtree(data, min_gain =0.01, min_samples = 5)
+    tree = regression_tree.buildtree(data, min_gain = 0.005, min_samples = 5)
 
-    dtree_build.printtree(tree, '', col_names)
+    regression_tree.printtree(tree, '', col_names)
 
     max_tree_depth = dtree_build.max_depth(tree)
     print("max number of questions=" + str(max_tree_depth))
 
     if len(sys.argv) > 2: # draw option specified
-        import dtree_draw
-        dtree_draw.drawtree(tree, jpeg=csv_file_name+'.jpg')
+        import regression_draw
+        regression_draw.drawtree(tree, jpeg=csv_file_name+'.jpg')
 
     if len(sys.argv) > 3:  # create json file for d3.js visualization
         import json
@@ -46,6 +47,9 @@ def main(col_names=None):
         with open(csv_file_name + ".json", "w") as write_file:
             json.dump(json_tree, write_file)
 
+    print("course ['teaching', 'not minority', 'female', 'english', 50, 30, 'lower', 7, 4] is: ", dtree_build.classify(['teaching', 'not minority', 'female', 'english', 50, 30, 'lower', 7, 4], tree))
+    print("course ['teaching', 'not minority', 'male', 'english', 40, 30, 'lower', 6, 4] is: ", dtree_build.classify(['teaching', 'not minority', 'male', 'english', 40, 30, 'lower', 6, 4], tree))
+    print("course ['teaching', 'not minority', 'male', 'english', 70, 30, 'lower', 4, 4] is: ", dtree_build.classify(['teaching', 'not minority', 'male', 'english', 70, 30, 'lower', 4, 4], tree))
 
 if __name__ == "__main__":
     col_names = ['rank',
@@ -58,8 +62,3 @@ if __name__ == "__main__":
                  'bty_avg',
                  'prof_eval']
     main(col_names)
-
-
-
-
-

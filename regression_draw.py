@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw
+import regression_tree
 from dtree_build import decisionnode
 
 def getwidth(tree):
@@ -43,5 +44,5 @@ def drawnode(draw, tree, x, y):
         drawnode(draw, tree.fb, left + w1 / 2, y + 100)
         drawnode(draw, tree.tb, right - w2 / 2, y + 100)
     else:
-        txt = ' \n'.join(['%s:%d' % v for v in tree.results.items()])
+        txt = ' \n'+str(regression_tree.average_prediction(tree.results))
         draw.text((x - 20, y), txt, (0, 0, 0))

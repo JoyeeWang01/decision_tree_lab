@@ -77,9 +77,6 @@ def variance(rows):
     return variance
 
 
-
-
-
 def prediction(leaf_labels):
     total = 0
     result = {}
@@ -168,7 +165,7 @@ def buildtree(rows, scoref=entropy,
             # Information gain
             p = float(len(set1)) / len(rows)
             gain = current_score - p * scoref(set1) - (1 - p) * scoref(set2)
-            if gain > best_gain and len(set1) > min_samples and len(set2) > min_samples:
+            if gain > best_gain and len(set1) > min_samples and len(set2) > min_samples and gain > min_gain:
                 best_gain = gain
                 best_criteria = (col, value)
                 best_sets = (set1, set2)
